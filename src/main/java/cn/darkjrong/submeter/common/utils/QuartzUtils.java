@@ -358,6 +358,22 @@ public class QuartzUtils {
     }
 
     /**
+     * 检查是否存在
+     *
+     * @param jobName 任何名
+     * @return {@link Boolean}
+     */
+    public Boolean checkExists(String jobName) {
+        JobKey jobKey = JobKey.jobKey(jobName, DEFAULT_GROUP);
+        try {
+            return scheduler.checkExists(jobKey);
+        }catch (Exception e) {
+            log.error("Check whether the {} task is abnormal, error info {}", jobName, e.getMessage());
+        }
+        return Boolean.FALSE;
+    }
+
+    /**
      * 获取最近5次执行时间
      *
      * @param cron cron

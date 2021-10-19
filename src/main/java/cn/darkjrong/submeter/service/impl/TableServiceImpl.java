@@ -126,7 +126,9 @@ public class TableServiceImpl implements TableService {
             tableNames.put(tableName, jointSql(logicalTable, tableName, tableInfo.getTableSql()));
 
             // 启动定期创建定时器
-            startTask(timeFormat);
+            if (!quartzUtils.checkExists(TableTask.class.getName())) {
+                startTask(timeFormat);
+            }
         } else if (StrUtil.isNotBlank(accurateFormat)) {
             List<String> suffixs = StrUtil.split(accurateFormat, StrUtil.C_COMMA);
             suffixs.forEach(a -> {
